@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memories Vault</title>
+    <style>
+      :root {
+        --bg: #f4f1ea;
+        --panel: rgba(255, 255, 255, 0.7);
+        --ink: #171613;
+        --muted: #5d5a54;
+        --line: rgba(23, 22, 19, 0.12);
+        --accent: #9d7153;
+        --accent-soft: #e7d4c6;
+        --shadow: 0 22px 60px rgba(23, 22, 19, 0.12);
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        font-family: Inter, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top, rgba(157, 113, 83, 0.08), transparent 32%),
+          var(--bg);
+        color: var(--ink);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(12px);
+        background: rgba(244, 241, 234, 0.7);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 72px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.78rem;
+      }
+
+      .brand-mark {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--ink), var(--accent));
+        box-shadow: inset 0 0 0 2px rgba(255,255,255,0.8);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .nav-links a:hover { color: var(--ink); }
+
+      .nav-cta {
+        border: 1px solid var(--ink);
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-size: 0.88rem;
+        transition: 0.2s ease;
+      }
+
+      .nav-cta:hover {
+        background: var(--ink);
+        color: var(--bg);
+      }
+
+      .hero {
+        padding: 56px 0 36px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: center;
+        gap: 56px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255,255,255,0.3);
+        color: var(--muted);
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      h1 {
+        margin: 22px 0 18px;
+        font-size: clamp(2.8rem, 6vw, 6rem);
+        line-height: 0.9;
+        letter-spacing: -0.06em;
+        font-weight: 700;
+      }
+
+      .hero-copy {
+        max-width: 600px;
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.8;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 30px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        padding: 14px 22px;
+        min-height: 52px;
+        border: 1px solid var(--ink);
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        transition: 0.2s ease;
+      }
+
+      .button.primary {
+        background: var(--ink);
+        color: var(--bg);
+      }
+
+      .button.secondary {
+        background: transparent;
+        color: var(--ink);
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .hero-card {
+        position: relative;
+        background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.62));
+        border: 1px solid var(--line);
+        border-radius: 32px;
+        box-shadow: var(--shadow);
+        padding: 22px;
+      }
+
+      .reader-device {
+        position: relative;
+        background: linear-gradient(180deg, #181714 0%, #2b2925 100%);
+        border-radius: 28px;
+        min-height: 520px;
+        padding: 26px 18px 18px;
+        color: rgba(255,255,255,0.85);
+        overflow: hidden;
+      }
+
+      .reader-device::before {
+        content: "";
+        position: absolute;
+        inset: 16px;
+        border-radius: 24px;
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+
+      .device-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.7);
+        padding: 0 8px 18px;
+      }
+
+      .status-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #9ad6aa;
+        box-shadow: 0 0 18px rgba(121, 221, 140, 0.9);
+      }
+
+      .tag-card {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: min(78%, 270px);
+        transform: translate(-50%, -50%);
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 22px;
+        padding: 18px 18px 14px;
+        backdrop-filter: blur(6px);
+      }
+
+      .tag-card .chip {
+        width: 100%;
+        height: 14px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(255,255,255,0.12), rgba(255,255,255,0.28), rgba(255,255,255,0.12));
+      }
+
+      .tag-card .code {
+        margin-top: 18px;
+        font-size: 2.1rem;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+      }
+
+      .tag-card .meta {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        color: rgba(255,255,255,0.72);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .floating-note {
+        position: absolute;
+        right: 16px;
+        bottom: 18px;
+        background: rgba(255,255,255,0.88);
+        border: 1px solid var(--line);
+        color: var(--ink);
+        border-radius: 16px;
+        padding: 12px 14px;
+        box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+        min-width: 140px;
+      }
+
+      .floating-note strong {
+        display: block;
+        font-size: 1.25rem;
+        margin-top: 2px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 26px;
+      }
+
+      .stat {
+        background: rgba(255,255,255,0.5);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 20px 18px;
+      }
+
+      .stat-value {
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        letter-spacing: -0.05em;
+        font-weight: 700;
+      }
+
+      .stat-label {
+        color: var(--muted);
+        font-size: 0.82rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-top: 8px;
+      }
+
+      .content {
+        padding: 26px 0 80px;
+      }
+
+      .section-label {
+        font-size: 0.75rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 14px;
+      }
+
+      .story-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 30px;
+        align-items: start;
+        margin-top: 34px;
+      }
+
+      .panel {
+        background: rgba(255,255,255,0.5);
+        border: 1px solid var(--line);
+        border-radius: 26px;
+        padding: 26px;
+      }
+
+      h2 {
+        margin: 0 0 18px;
+        font-size: clamp(2rem, 4vw, 3rem);
+        letter-spacing: -0.06em;
+        line-height: 1.02;
+      }
+
+      .lead {
+        color: var(--muted);
+        line-height: 1.8;
+        font-size: 1.04rem;
+      }
+
+      .mini-list {
+        list-style: none;
+        padding: 0;
+        margin: 22px 0 0;
+        display: grid;
+        gap: 16px;
+      }
+
+      .mini-list li {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        color: var(--ink);
+      }
+
+      .mini-list .icon {
+        flex: 0 0 34px;
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        background: var(--accent-soft);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .collection {
+        display: grid;
+        gap: 16px;
+      }
+
+      .item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 18px 20px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.35);
+      }
+
+      .item strong {
+        font-size: 1.02rem;
+      }
+
+      .item span {
+        display: block;
+        color: var(--muted);
+        margin-top: 4px;
+        font-size: 0.82rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .item .tag {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #f8efe8, #e3c7b4);
+        border: 1px solid rgba(23,22,19,0.08);
+        display: grid;
+        place-items: center;
+        font-size: 1.2rem;
+      }
+
+      .cta {
+        margin-top: 48px;
+        padding: 34px 24px;
+        border-radius: 30px;
+        border: 1px solid var(--line);
+        background: linear-gradient(135deg, rgba(23,22,19,0.98), rgba(54,48,42,0.92));
+        color: #f7f3ef;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 22px;
+      }
+
+      .cta h3 {
+        margin: 0 0 8px;
+        font-size: clamp(1.8rem, 3vw, 2.6rem);
+        letter-spacing: -0.05em;
+      }
+
+      .cta p {
+        margin: 0;
+        color: rgba(255,255,255,0.72);
+        line-height: 1.7;
+      }
+
+      .cta .button.primary {
+        background: #f4f1ea;
+        color: var(--ink);
+        border-color: #f4f1ea;
+      }
+
+      footer {
+        padding: 0 0 48px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 920px) {
+        .hero-grid,
+        .story-grid,
+        .cta {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-links {
+          display: none;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 38px;
+        }
+
+        .nav {
+          min-height: 64px;
+        }
+
+        .nav-cta {
+          display: none;
+        }
+
+        .reader-device {
+          min-height: 440px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <a href="#top" class="brand" aria-label="Memories Vault home">
+          <span class="brand-mark"></span>
+          Memories Vault
+        </a>
+
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#story">Story</a>
+          <a href="#collection">Collection</a>
+          <a href="#journal">Journal</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <a href="#contact" class="nav-cta">Start a vault</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">NFC memory archive</div>
+            <h1>Places I’ve been.<br />Things I’ve kept.</h1>
+            <p class="hero-copy">
+              A quiet digital archive for the moments that matter — every city, every object, every story tied to a tap.
+              Scan an NFC tag and open the memory behind it.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#story" class="button primary">View the vault</a>
+              <a href="#collection" class="button secondary">See the collection</a>
+            </div>
+
+            <div class="stats" aria-label="Memories vault statistics">
+              <div class="stat">
+                <div class="stat-value">42</div>
+                <div class="stat-label">places</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">128</div>
+                <div class="stat-label">keepsakes</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">09</div>
+                <div class="stat-label">cities</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-card" aria-label="NFC reader preview">
+            <div class="reader-device">
+              <div class="device-header">
+                <span>Scanner</span>
+                <span class="status-dot" aria-label="online"></span>
+              </div>
+
+              <div class="tag-card">
+                <div class="chip"></div>
+                <div class="code">A-204</div>
+                <div class="meta">
+                  <span>Oslo</span>
+                  <span>09.14</span>
+                </div>
+              </div>
+
+              <div class="floating-note">
+                Memory found
+                <strong>River walk</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="story" class="content">
+        <div class="container">
+          <div class="section-label">The story</div>
+          <div class="story-grid">
+            <div class="panel">
+              <h2>Every place becomes a page.</h2>
+              <p class="lead">
+                Memories Vault turns travels and collected objects into a personal archive.
+                Each NFC tag carries a story — a café, a train station, a receipt, a shell, a field note, a keepsake from a day worth remembering.
+              </p>
+
+              <ul class="mini-list">
+                <li>
+                  <div class="icon">1</div>
+                  <div>
+                    <strong>Tap to remember</strong><br />
+                    Scan a tag and revisit a place in real time.
+                  </div>
+                </li>
+                <li>
+                  <div class="icon">2</div>
+                  <div>
+                    <strong>Collect the details</strong><br />
+                    Save photos, notes, sounds, and little objects with context.
+                  </div>
+                </li>
+                <li>
+                  <div class="icon">3</div>
+                  <div>
+                    <strong>Build a living archive</strong><br />
+                    Create a map of your own life through places and possessions.
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div id="collection" class="panel">
+              <div class="section-label">Recent finds</div>
+              <div class="collection">
+                <div class="item">
+                  <div>
+                    <strong>Kyiv train platform</strong>
+                    <span>June 2025</span>
+                  </div>
+                  <div class="tag">✦</div>
+                </div>
+
+                <div class="item">
+                  <div>
+                    <strong>Old ceramic mug</strong>
+                    <span>From Lisbon</span>
+                  </div>
+                  <div class="tag">◌</div>
+                </div>
+
+                <div class="item">
+                  <div>
+                    <strong>Late-night ramen</strong>
+                    <span>Tokyo / 02:14</span>
+                  </div>
+                  <div class="tag">✧</div>
+                </div>
+
+                <div class="item">
+                  <div>
+                    <strong>Pressed flowers</strong>
+                    <span>From Kyoto</span>
+                  </div>
+                  <div class="tag">❋</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cta" id="journal">
+            <div>
+              <div class="section-label" style="color: rgba(255,255,255,0.6);">Journal</div>
+              <h3>Keep the world close.</h3>
+              <p>From airport corners to collected trinkets, every object tells a story. Put them somewhere you can return to.</p>
+            </div>
+            <a href="#contact" class="button primary">Build my archive</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact" class="container">
+      Memories Vault — places, objects, and the details that make them yours.
+    </footer>
+  </body>
+</html>
