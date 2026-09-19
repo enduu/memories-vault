@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>El Nido 2024</title>
+    <style>
+      :root {
+        --bg-1: rgba(7, 18, 28, 0.72);
+        --bg-2: rgba(10, 26, 32, 0.5);
+        --card: rgba(9, 18, 25, 0.58);
+        --border: rgba(255, 255, 255, 0.18);
+        --text: #edf6ff;
+        --muted: #bfd4df;
+        --accent: #9fe7ff;
+        --accent-2: #76d5b5;
+        --shadow: rgba(0, 0, 0, 0.35);
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--text);
+        background: #08171d;
+      }
+
+      body {
+        background-image:
+          linear-gradient(135deg, var(--bg-1), var(--bg-2)),
+          url("img/eln24-1.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+
+      .page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 20px;
+      }
+
+      .vault {
+        width: min(1100px, 100%);
+        background: rgba(9, 18, 25, 0.4);
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 24px 80px var(--shadow);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+
+      .hero {
+        position: relative;
+        min-height: 420px;
+        padding: 48px 42px 28px;
+        display: flex;
+        align-items: flex-end;
+        background:
+          linear-gradient(180deg, rgba(0,0,0,0.2), rgba(4,13,18,0.82)),
+          url("img/eln24-2.jpg") center/cover no-repeat;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(0,0,0,0.42), rgba(0,0,0,0.12));
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 700px;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 12px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        line-height: 0.96;
+        letter-spacing: -0.06em;
+      }
+
+      .subtitle {
+        margin-top: 14px;
+        font-size: 1.05rem;
+        color: var(--muted);
+        max-width: 560px;
+      }
+
+      .content {
+        padding: 30px 42px 42px;
+      }
+
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 28px;
+      }
+
+      .tag {
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255,255,255,0.04);
+        color: var(--text);
+        font-size: 0.82rem;
+        letter-spacing: 0.04em;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 28px;
+      }
+
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 22px 20px;
+      }
+
+      .panel h2 {
+        margin: 0 0 16px;
+        font-size: 1.1rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      p {
+        margin: 0 0 16px;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 20px;
+        color: var(--muted);
+        line-height: 1.9;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      .thumb {
+        min-height: 120px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background-size: cover;
+        background-position: center;
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+      }
+
+      .thumb:nth-child(1) { background-image: url("img/eln24-3.jpg"); }
+      .thumb:nth-child(2) { background-image: url("img/eln24-4.jpg"); }
+      .thumb:nth-child(3) { background-image: url("img/eln24-5.jpg"); }
+      .thumb:nth-child(4) { background-image: url("img/eln24-6.jpg"); }
+
+      @media (max-width: 760px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero,
+        .content {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+
+        .hero {
+          min-height: 340px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <main class="vault">
+        <section class="hero">
+          <div class="hero-content">
+            <div class="eyebrow">Philippines Journey</div>
+            <h1>El Nido 2024</h1>
+            <div class="subtitle">
+              Turquoise water, limestone cliffs, island hopping sunsets, and a week of pure tropical wonder.
+            </div>
+          </div>
+        </section>
+
+        <section class="content">
+          <div class="meta">
+            <span class="tag">Palawan</span>
+            <span class="tag">April 2024</span>
+            <span class="tag">Island Hopping</span>
+            <span class="tag">Hidden Beaches</span>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <h2>Vault Entry</h2>
+              <p>
+                El Nido felt like stepping into another world: dramatic karst cliffs rising from the sea,
+                clear lagoons glowing in brilliant shades of blue, and nights that drifted by on warm island air.
+              </p>
+              <p>
+                We spent our days swimming in untouched coves, kayaking between jagged limestone walls,
+                and chasing golden hour along the shoreline. Every corner of the island seemed designed for a postcard.
+              </p>
+              <ul>
+                <li>Big Lagoon day trip</li>
+                <li>Secret Beach swims</li>
+                <li>Sunset at the cliffs</li>
+                <li>Fresh seafood and island vibes</li>
+              </ul>
+            </div>
+
+            <div class="panel">
+              <h2>Moments</h2>
+              <p>From early morning boat rides to late-night conversations under the stars.</p>
+              <div class="gallery" aria-label="El Nido gallery">
+                <div class="thumb" title="El Nido memory 1"></div>
+                <div class="thumb" title="El Nido memory 2"></div>
+                <div class="thumb" title="El Nido memory 3"></div>
+                <div class="thumb" title="El Nido memory 4"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
